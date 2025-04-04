@@ -1,0 +1,29 @@
+trigger:
+- main  # Runs when code is pushed to the main branch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  dockerHubId: '<your-dockerhub-username>'
+  imageName: 'quote-generator'
+  tag: 'latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'Build React App'
+
+- task: Docker@2
+  inputs:
+    command: 'buildAndPush'
+    containerRegistry: 'docker-hub-connection'  # This is the service connection name
+    repository: '$(dockerHubId)/$(imageName)'
+    tags: '$(tag)'
+  displayName: 'Build and Push Docker Image'
