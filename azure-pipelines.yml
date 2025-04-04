@@ -5,7 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  dockerHubId: '<your-dockerhub-username>'
+  dockerHubId: 'rmittal111'
   imageName: 'quote-generator'
   tag: 'latest'
 
